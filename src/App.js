@@ -49,7 +49,7 @@ function App() {
           <Cart cart={cart} setCart={setCart}></Cart>
         </Route>
 
-        <Route exact path="/">
+        <Route exact path="/home">
           <Products
             products={products}
             cart={cart}
