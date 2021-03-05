@@ -1,7 +1,7 @@
 {
   "name": "fetchtest",
   "version": "0.1.0",
-  "homepage": "https://facundosaldivia.github.io/home",
+  "homepage": "https://facundosaldivia.github.io/ReactEcommerce/",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.3",

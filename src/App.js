@@ -49,7 +49,7 @@ function App() {
           <Cart cart={cart} setCart={setCart}></Cart>
         </Route>
 
-        <Route exact path="/home">
+        <Route exact path="/ReactEcommerce">
           <Products
             products={products}
             cart={cart}
