@@ -1,27 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   AppBar,
   Toolbar,
   IconButton,
   Badge,
-  MenuItem,
-  Menu,
   Typography,
 } from "@material-ui/core";
 import { ShoppingCart } from "@material-ui/icons";
 import useStyles from "./styles";
 import logo from "../../img/ecommerce.png";
 import { Link } from "react-router-dom";
-function Navbar({ cart }) {
+function Navbar({ cartStock }) {
   const classes = useStyles();
+
   return (
     <>
       <AppBar position="fixed" className={classes.appBar} color="inherit">
         <Toolbar>
           <Typography
             component={Link}
-            to="/"
+            to="/ReactEcommerce"
             variant="h6"
             className={classes.title}
             color="inherit"
@@ -38,11 +37,19 @@ function Navbar({ cart }) {
           <div className={classes.button}>
             <IconButton
               component={Link}
+              to="/form"
+              arial-label="Show cart items"
+              color="inherit"
+            >
+              <Badge color="secondary">Vender</Badge>
+            </IconButton>{" "}
+            <IconButton
+              component={Link}
               to="/cart"
               arial-label="Show cart items"
               color="inherit"
             >
-              <Badge badgeContent={cart.length} color="secondary">
+              <Badge badgeContent={cartStock} color="secondary">
                 <ShoppingCart />
               </Badge>
             </IconButton>{" "}

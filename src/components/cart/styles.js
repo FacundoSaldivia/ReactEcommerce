@@ -58,4 +58,9 @@ export default makeStyles((theme) => ({
   subTotal: {
     marginTop: "50px",
   },
+  cartFalse: {
+    marginTop: "10%",
+    marginLeft: "1%",
+    fontSize: "200%",
+  },
 }));

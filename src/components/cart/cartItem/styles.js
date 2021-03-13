@@ -19,4 +19,14 @@ export default makeStyles(() => ({
     alignItems: "center",
     marginLeft: "20px",
   },
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2,1fr)",
+    width: "100%",
+    gridGap: "10px",
+  },
+  price: {
+    textAlign: "right",
+    fontSize: "180%",
+  },
 }));

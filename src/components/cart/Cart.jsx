@@ -6,14 +6,14 @@ import CartItem from "./cartItem/CarItem";
 const subTotal = (cart) => {
   let result = 0;
   cart.forEach((product) => {
-    result += product.price;
+    result += product.price * product.inCartStock;
   });
+
   return result;
 };
 
-function Cart({ cart, setCart }) {
+function Cart({ cart, setCart, setCartStock, cartStock }) {
   const classes = useStyles();
-
   if (cart.length > 0) {
     return (
       <>
@@ -26,7 +26,13 @@ function Cart({ cart, setCart }) {
           <Grid container spacing={3}>
             {cart.map((product) => (
               <Grid item xs={12} sm={4} key={product._id}>
-                <CartItem product={product} cart={cart} setCart={setCart} />
+                <CartItem
+                  product={product}
+                  cart={cart}
+                  setCart={setCart}
+                  setCartStock={setCartStock}
+                  cartStock={cartStock}
+                />
               </Grid>
             ))}
           </Grid>
@@ -41,6 +47,14 @@ function Cart({ cart, setCart }) {
                 type="button"
                 variant="contained"
                 color="secondary"
+                onClick={() => {
+                  cart.map((product) => {
+                    product.stock += product.inCartStock;
+                    product.inCartStock = 0;
+                  });
+                  setCart([]);
+                  setCartStock(0);
+                }}
               >
                 Vaciar carrito
               </Button>
@@ -61,62 +75,12 @@ function Cart({ cart, setCart }) {
   } else {
     return (
       <>
-        <Typography variant="subtitle1">
+        <Typography variant="subtitle1" className={classes.cartFalse}>
           No tienes ningun producto en tu carrito...
         </Typography>
-        ;
       </>
     );
   }
-  //
-  //
-
-  //   //empty cart
-  //   const EmptyCart = () => {
-
-  //   };
-  //   console.log(cart);
-  //   //cart with items
-  //   const FilledCart = () => {
-  //     <>
-  //       <Grid container spacing={3}></Grid>
-  //       <div className={classes.cardDetails}>
-  //         <Typography variant="h4">Subtotal: {4}</Typography>
-  //         <div>
-  //           <Button
-  //             className={classes.emptyButton}
-  //             size="large"
-  //             type="button"
-  //             variant="contained"
-  //             color="secondary"
-  //           >
-  //             Vaciar carrito
-  //           </Button>
-  //           <Button
-  //             className={classes.checkoutButton}
-  //             size="large"
-  //             type="button"
-  //             variant="contained"
-  //             color="primary"
-  //           >
-  //             Comprar
-  //           </Button>
-  //         </div>
-  //       </div>
-  //     </>;
-  //   };
-
-  //   return (
-  //     <>
-  //       <Container>
-  //         <div className={classes.toolbar} />
-  //         <Typography className={classes.title} variant="h3">
-  //           Tu carrito de compras
-  //         </Typography>
-  //         {isEmpty ? <EmptyCart /> : <FilledCart />}
-  //       </Container>
-  //     </>
-  //   );
 }
 
 export default Cart;
