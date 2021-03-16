@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardMedia,
@@ -12,15 +12,7 @@ import axios from "axios";
 import { AddShoppingCart } from "@material-ui/icons";
 import useStyles from "./styles";
 
-const checkUrl = (url) => {
-  axios
-    .get(url)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
-};
-
 function Product({ product, setCart, cart, setCartStock }) {
-  checkUrl(product.imageUrl);
   const addToCart = () => {
     console.log(product);
     let repetido = false;
