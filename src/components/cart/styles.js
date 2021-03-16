@@ -63,4 +63,5 @@ export default makeStyles((theme) => ({
     marginLeft: "1%",
     fontSize: "200%",
   },
+  gpayButton: {},
 }));

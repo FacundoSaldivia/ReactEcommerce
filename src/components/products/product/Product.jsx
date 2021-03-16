@@ -7,10 +7,20 @@ import {
   Typography,
   IconButton,
 } from "@material-ui/core";
+import axios from "axios";
 
 import { AddShoppingCart } from "@material-ui/icons";
 import useStyles from "./styles";
+
+const checkUrl = (url) => {
+  axios
+    .get(url)
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
+};
+
 function Product({ product, setCart, cart, setCartStock }) {
+  checkUrl(product.imageUrl);
   const addToCart = () => {
     console.log(product);
     let repetido = false;
@@ -38,10 +48,15 @@ function Product({ product, setCart, cart, setCartStock }) {
     setCartStock(stock);
   };
 
+  const [algo, setAlgo] = useState(false);
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
+    <Card
+      className={classes.root}
+      onMouseEnter={() => setAlgo(true)}
+      onMouseLeave={() => setAlgo(true)}
+    >
       <CardMedia
         className={classes.media}
         image={product.imageUrl}
@@ -54,7 +69,12 @@ function Product({ product, setCart, cart, setCartStock }) {
           </Typography>
           <Typography variant="h6">{`$${product.price}`}</Typography>
         </div>
-        <Typography variant="body2" color="textSecondary">
+
+        <Typography
+          className={classes.description}
+          variant="body2"
+          color="textSecondary"
+        >
           {product.description}
         </Typography>
       </CardContent>

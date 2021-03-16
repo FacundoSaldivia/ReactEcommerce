@@ -13,7 +13,7 @@ const Products = ({ products, cart, setCart, setCartStock }) => {
     <main className={classes.content}>
       <Grid className={classes.toolbar} container justify="center" spacing={8}>
         {products.map((product) => (
-          <Grid item key={product._id} xs={12} sm={6} m={4} lg={3}>
+          <Grid item key={product._id} xs={12} sm={6} m={4} lg={4}>
             <Product
               product={product}
               setCart={setCart}

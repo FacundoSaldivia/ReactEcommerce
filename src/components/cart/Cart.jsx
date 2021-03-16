@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Container, Typography, Button, Grid } from "@material-ui/core";
 import useStyles from "./styles";
 import CartItem from "./cartItem/CarItem";
+import GooglePayButton from "@google-pay/button-react";
+import axios from "axios";
+let total = "";
 
 const subTotal = (cart) => {
   let result = 0;
   cart.forEach((product) => {
     result += product.price * product.inCartStock;
   });
-
+  total = result.toString();
   return result;
 };
+
+const checkUrl = (url) => {};
 
 function Cart({ cart, setCart, setCartStock, cartStock }) {
   const classes = useStyles();
@@ -58,15 +63,57 @@ function Cart({ cart, setCart, setCartStock, cartStock }) {
               >
                 Vaciar carrito
               </Button>
-              <Button
-                className={classes.checkoutButton}
-                size="large"
-                type="button"
-                variant="contained"
-                color="primary"
-              >
-                Comprar
-              </Button>
+              {total ? (
+                <GooglePayButton
+                  className={classes.gpayButton}
+                  environment="TEST"
+                  paymentRequest={{
+                    apiVersion: 2,
+                    apiVersionMinor: 0,
+                    allowedPaymentMethods: [
+                      {
+                        type: "CARD",
+                        parameters: {
+                          allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+                          allowedCardNetworks: ["MASTERCARD", "VISA"],
+                        },
+                        tokenizationSpecification: {
+                          type: "PAYMENT_GATEWAY",
+                          parameters: {
+                            gateway: "example",
+                            gatewayMerchantId: "expampleGatewayMerchantId",
+                          },
+                        },
+                      },
+                    ],
+                    merchantInfo: {
+                      merchantId: "12345678901234567890",
+                      merchantName: "Demo Merchant",
+                    },
+                    transactionInfo: {
+                      totalPriceStatus: "FINAL",
+                      totalPriceLabel: "Total",
+                      totalPrice: total,
+                      currencyCode: "ARS",
+                      countryCode: "AR",
+                    },
+                    shippingAddressRequired: true,
+                    callbackIntents: ["PAYMENT_AUTHORIZATION"],
+                  }}
+                  onLoadPaymentData={(paymentRequest) => {
+                    console.log("exito", paymentRequest);
+                  }}
+                  onPaymentAuthorized={(paymentData) => {
+                    console.log("autorizado", paymentData);
+                    return { transtactionState: "SUCCESS" };
+                  }}
+                  existingPaymentMethodRequired="false"
+                  buttonColor="black"
+                  buttontType="Buy"
+                ></GooglePayButton>
+              ) : (
+                console.log()
+              )}
             </div>
           </div>
         </Container>

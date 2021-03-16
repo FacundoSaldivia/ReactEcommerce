@@ -15,6 +15,7 @@ export default makeStyles(() => ({
   cardContent: {
     display: "flex",
     justifyContent: "space-between",
+    animation: "0.2s",
   },
   outStock: {
     color: "gray",
