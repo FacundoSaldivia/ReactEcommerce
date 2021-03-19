@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, Typography, Button, Grid } from "@material-ui/core";
 import useStyles from "./styles";
 import CartItem from "./cartItem/CarItem";
@@ -15,7 +15,24 @@ const subTotal = (cart) => {
   return result;
 };
 
-const checkUrl = (url) => {};
+const CheckOut = (cart, setCart) => {
+  cart.forEach((product) => {
+    let newStock = product.stock - product.inCartStock + 1;
+    axios.patch(
+      `https://shrouded-sierra-86446.herokuapp.com/posts/${product._id}`,
+      {
+        stock: newStock,
+      }
+    );
+
+    let newCart = cart.filter((producto) => producto._id !== product._id);
+    setCart(newCart);
+    product.inCartStock = 0;
+    product.stock = newStock;
+    console.log(product._id);
+  });
+  console.log(cart);
+};
 
 function Cart({ cart, setCart, setCartStock, cartStock }) {
   const classes = useStyles();
@@ -94,18 +111,19 @@ function Cart({ cart, setCart, setCartStock, cartStock }) {
                       totalPriceStatus: "FINAL",
                       totalPriceLabel: "Total",
                       totalPrice: total,
-                      currencyCode: "ARS",
-                      countryCode: "AR",
+                      currencyCode: "USD",
+                      countryCode: "US",
                     },
-                    shippingAddressRequired: true,
+                    shippingAddressRequired: false,
                     callbackIntents: ["PAYMENT_AUTHORIZATION"],
                   }}
                   onLoadPaymentData={(paymentRequest) => {
                     console.log("exito", paymentRequest);
+                    CheckOut(cart, setCart);
                   }}
                   onPaymentAuthorized={(paymentData) => {
-                    console.log("autorizado", paymentData);
-                    return { transtactionState: "SUCCESS" };
+                    console.log("Payment Authorised Success", paymentData);
+                    return { transactionState: "SUCCESS" };
                   }}
                   existingPaymentMethodRequired="false"
                   buttonColor="black"

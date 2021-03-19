@@ -14,16 +14,16 @@ import useStyles from "./styles";
 
 function Product({ product, setCart, cart, setCartStock }) {
   const addToCart = () => {
-    console.log(product);
     let repetido = false;
     let stock = 1;
     cart.forEach((product2) => {
+      console.log(product, product2);
       stock += product2.inCartStock;
 
       // compares to see if the cart already has the product
       if (product2._id === product._id) {
         repetido = true;
-      } else {
+      } else if (!repetido) {
         repetido = false;
       }
     });

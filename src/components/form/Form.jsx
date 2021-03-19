@@ -19,7 +19,7 @@ function Form() {
   const setToZero = () => {
     setTitle("");
     setPrice(0);
-    setUrlImg("");
+    setUrlImg();
     setStock();
     setDescription("");
   };
